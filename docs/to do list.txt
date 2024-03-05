@@ -1,0 +1,11 @@
+List of To dos
+
+ - Make mount for camera, extend wires (Brendan)
+ - Secure all components to plywood (all)
+ - Finish E-stop implementation (Brendan)
+ - Servo move power out of motor driver (JW)
+ - Take gun apart, connect wires to flywheel (JW)
+ - Use motor driver to power flywheel (JW)
+ - Clean up wires (all)
+ - Implement code cooperatively (JR)
+ - Translate average heat pos to encoder value (JR)

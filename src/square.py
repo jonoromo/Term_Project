@@ -32,9 +32,9 @@ pinC7 = pyb.Pin(pyb.Pin.board.PC7, pyb.Pin.OUT_PP)
 
 while True:
     pinC7.value(0)
-    utime.sleep(1)
+    utime.sleep_ms(1000)
     pinC7.value(1)
-    utime.sleep(1)
+    utime.sleep_ms(1000)
 
 
 
