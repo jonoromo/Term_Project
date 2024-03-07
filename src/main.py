@@ -141,6 +141,7 @@ def task2_fun():
             con = motor_controller.Controller(0.2, start)
             setpoint = start
             t2_state = 1
+            moved = 0
             
         elif (t2_state == 1):
             
@@ -156,6 +157,37 @@ def task2_fun():
             old_sp = setpoint
             t2_state = 2
             n = 0
+            
+            if moved == 1:
+                
+                pinC7 = pyb.Pin(pyb.Pin.board.PC7, pyb.Pin.OUT_PP)
+                pinC7.value(0)
+                time.sleep_ms(20)
+
+                pinC7.value(1)
+                time.sleep_us(2000)
+                pinC7.value(0)
+                time.sleep_ms(18)
+
+                time.sleep_ms(300)
+
+                pinC7.value(1)
+                pinC7.value(0)
+
+                pinC7.value(1)
+                time.sleep_us(500)
+                pinC7.value(0)
+                time.sleep_ms(19)
+
+                time.sleep_ms(100)
+
+                pinC7.value(1)
+                pinC7.value(0)
+                moved += 1
+                
+            else:
+                moved += 1
+            
             yield 0
                 
         elif (t2_state == 2):
@@ -164,7 +196,7 @@ def task2_fun():
                 n += 1
             else:
                 val = my_share.get()
-                setpoint = start+0.1*(val-1400)
+                setpoint = start+0.2*(val-1400)
                 print('SP',setpoint)
                 t2_state = 1
             yield 0
@@ -180,14 +212,44 @@ def task3_fun():
     while(True):
         
         if (t3_state == 0):
-            yield
+            
+            if t2_state == 2:
+                t3_state = 1
+                yield
+            else:
+                t3_state = 0
+                yield
             
             
         elif (t3_state == 1):
+
+            pinC7.value(1)
+            utime.sleep_us(2000)
+            pinC7.value(0)
+            utime.sleep_ms(19)
+
+            utime.sleep_ms(225)
+
+            pinC7.value(1)
+            pinC7.value(0)
+
+            pinC7.value(1)
+            utime.sleep_us(500)
+            pinC7.value(0)
+            utime.sleep_ms(19)
+
+            utime.sleep_ms(225)
+
+            pinC7.value(1)
+            pinC7.value(0)
+            
+            t3_state = 2
             yield
             
                 
         elif (t3_state == 2):
+            
+            t3_state = 2
             yield
             
 
