@@ -143,6 +143,16 @@ def task2_fun():
             t2_state = 1
             moved = 0
             
+            enPin_f = pyb.Pin(pyb.Pin.board.PC1, pyb.Pin.OUT_PP) # Initialize pin en_pin (PA10)
+            in2_pin_f = pyb.Pin(pyb.Pin.board.PA0, pyb.Pin.OUT_PP) # Initialize pin in2_pin (PB5)
+            in1_pin_f = pyb.Pin(pyb.Pin.board.PA1, pyb.Pin.OUT_PP) # Initialize pin in1_pin (PB4)
+            timmy_f = pyb.Timer(5, freq=20000) # Initialize timer
+            ch_pos_f = timmy.channel(1, pyb.Timer.PWM, pin=in2_pin) # Initialize positive direction timer channel
+            ch_neg_f = timmy.channel(2, pyb.Timer.PWM, pin=in1_pin) # Initialize negative direction timer channel
+            
+            fly = motor_driver.MotorDriver(enPin_f, in2_pin_f, in1_pin_f, timmy_f, ch_pos_f, ch_neg_f)
+            fly.set_duty_cycle(50)
+            
         elif (t2_state == 1):
             
             for i in range(80):
@@ -201,59 +211,6 @@ def task2_fun():
                 t2_state = 1
             yield 0
 
-
-def task3_fun():
-    """!
-    Servo control
-    """
-    
-    t3_state = 0
-    
-    while(True):
-        
-        if (t3_state == 0):
-            
-            if t2_state == 2:
-                t3_state = 1
-                yield
-            else:
-                t3_state = 0
-                yield
-            
-            
-        elif (t3_state == 1):
-
-            pinC7.value(1)
-            utime.sleep_us(2000)
-            pinC7.value(0)
-            utime.sleep_ms(19)
-
-            utime.sleep_ms(225)
-
-            pinC7.value(1)
-            pinC7.value(0)
-
-            pinC7.value(1)
-            utime.sleep_us(500)
-            pinC7.value(0)
-            utime.sleep_ms(19)
-
-            utime.sleep_ms(225)
-
-            pinC7.value(1)
-            pinC7.value(0)
-            
-            t3_state = 2
-            yield
-            
-                
-        elif (t3_state == 2):
-            
-            t3_state = 2
-            yield
-            
-
-
  
 # This share holds a signed short (16-bit) integer
 my_share = task_share.Share ('h', name="My Share")
@@ -268,7 +225,6 @@ my_share = task_share.Share ('h', name="My Share")
 
 t1_state = 0
 t2_state = 0
-t3_state = 0
 
 # Create the tasks. If trace is enabled for any task, memory will be
 # allocated for state transition tracing, and the application will run out
@@ -276,11 +232,9 @@ t3_state = 0
 # debugging and set trace to False when it's not needed
 task1 = cotask.Task(task1_fun, name="Task_1", priority=1, period=10)
 task2 = cotask.Task(task2_fun, name="Task_2", priority=5, period=20)
-task3 = cotask.Task(task3_fun, name="Task_3", priority=3, period=20)
 
 cotask.task_list.append(task1)
 cotask.task_list.append(task2)
-cotask.task_list.append(task3)
 
 # Run the memory garbage collector to ensure memory is as defragmented as
 # possible before the real-time scheduler is started
