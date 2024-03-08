@@ -79,7 +79,7 @@ def task1_fun():
             # Keep trying to get an image; this could be done in a task, with
             # the task yielding repeatedly until an image is available
             
-            if i < 500:
+            if i < 400:
                 i += 1
             else:
                 image = None
@@ -137,7 +137,7 @@ def task2_fun():
             
             enc = encoder_reader.Encoder(pinA, pinB, timer, chan_A, chan_B)
             
-            start = 750
+            start = 730
             con = motor_controller.Controller(0.2, start)
             setpoint = start
             t2_state = 1
@@ -147,8 +147,8 @@ def task2_fun():
             in2_pin_f = pyb.Pin(pyb.Pin.board.PA0, pyb.Pin.OUT_PP) # Initialize pin in2_pin (PB5)
             in1_pin_f = pyb.Pin(pyb.Pin.board.PA1, pyb.Pin.OUT_PP) # Initialize pin in1_pin (PB4)
             timmy_f = pyb.Timer(5, freq=20000) # Initialize timer
-            ch_pos_f = timmy.channel(1, pyb.Timer.PWM, pin=in2_pin) # Initialize positive direction timer channel
-            ch_neg_f = timmy.channel(2, pyb.Timer.PWM, pin=in1_pin) # Initialize negative direction timer channel
+            ch_pos_f = timmy_f.channel(1, pyb.Timer.PWM, pin=in2_pin_f) # Initialize positive direction timer channel
+            ch_neg_f = timmy_f.channel(2, pyb.Timer.PWM, pin=in1_pin_f) # Initialize negative direction timer channel
             
             fly = motor_driver.MotorDriver(enPin_f, in2_pin_f, in1_pin_f, timmy_f, ch_pos_f, ch_neg_f)
             fly.set_duty_cycle(50)
@@ -170,6 +170,7 @@ def task2_fun():
             
             if moved == 1:
                 
+                time.sleep_ms(100)
                 pinC7 = pyb.Pin(pyb.Pin.board.PC7, pyb.Pin.OUT_PP)
                 pinC7.value(0)
                 time.sleep_ms(20)
@@ -193,6 +194,8 @@ def task2_fun():
 
                 pinC7.value(1)
                 pinC7.value(0)
+                time.sleep_ms(200)
+                fly.set_duty_cycle(0)
                 moved += 1
                 
             else:
@@ -202,11 +205,11 @@ def task2_fun():
                 
         elif (t2_state == 2):
             
-            if n < 250:
+            if n < 200:
                 n += 1
             else:
                 val = my_share.get()
-                setpoint = start+0.2*(val-1400)
+                setpoint = start+0.15*(val-1500)
                 print('SP',setpoint)
                 t2_state = 1
             yield 0
