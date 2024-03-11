@@ -72,6 +72,7 @@ def task1_fun():
             camera._camera.refresh_rate = 10.0
             #print(f"Refresh rate is now:  {camera._camera.refresh_rate}")
             i = 0
+            wait_cam = 200
             t1_state = 1
             
         # State 1: Wait for picture    
@@ -79,7 +80,7 @@ def task1_fun():
             # Keep trying to get an image; this could be done in a task, with
             # the task yielding repeatedly until an image is available
             
-            if i < 400:
+            if i < wait_cam:
                 i += 1
             else:
                 image = None
@@ -137,8 +138,9 @@ def task2_fun():
             
             enc = encoder_reader.Encoder(pinA, pinB, timer, chan_A, chan_B)
             
-            start = 730
-            con = motor_controller.Controller(0.2, start)
+            start = 770
+            wait_fire = 350
+            con = motor_controller.Controller(0.075, 0.001, start)
             setpoint = start
             t2_state = 1
             moved = 0
@@ -155,13 +157,18 @@ def task2_fun():
             
         elif (t2_state == 1):
             
-            for i in range(80):
+            con.clear_esum(0)
+            hold = 0
+            for i in range(60):
                 moe.set_duty_cycle(con.run(setpoint,enc.read()))
-                #con.meas_time(time.ticks_ms())
-                #con.meas_pos(enc.read())
-                if abs(con.run(setpoint,enc.read())) < 10:
-                    print('DONE')
-                    break
+                print(enc.read())
+                if abs( setpoint - enc.read() ) < 10:
+                    if hold > 4:
+                        print('DONE')
+                        break
+                    else:
+                        hold += 1
+                      
                 yield 0
             moe.set_duty_cycle(0)
             old_sp = setpoint
@@ -205,12 +212,16 @@ def task2_fun():
                 
         elif (t2_state == 2):
             
-            if n < 200:
+            if n < wait_fire:
                 n += 1
             else:
                 val = my_share.get()
-                setpoint = start+0.15*(val-1500)
+                if val < 1450:
+                    setpoint = enc.read()+0.06*(val-1450)
+                else:
+                    setpoint = enc.read()+0.05*(val-1450)
                 print('SP',setpoint)
+                con.set_Ki(0.1)
                 t2_state = 1
             yield 0
 
@@ -233,8 +244,8 @@ t2_state = 0
 # allocated for state transition tracing, and the application will run out
 # of memory after a while and quit. Therefore, use tracing only for 
 # debugging and set trace to False when it's not needed
-task1 = cotask.Task(task1_fun, name="Task_1", priority=1, period=10)
-task2 = cotask.Task(task2_fun, name="Task_2", priority=5, period=20)
+task1 = cotask.Task(task1_fun, name="Task_1", priority=2, period=20)
+task2 = cotask.Task(task2_fun, name="Task_2", priority=1, period=10)
 
 cotask.task_list.append(task1)
 cotask.task_list.append(task2)
