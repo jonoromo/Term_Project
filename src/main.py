@@ -138,7 +138,7 @@ def task2_fun():
             
             enc = encoder_reader.Encoder(pinA, pinB, timer, chan_A, chan_B)
             
-            start = 770
+            start = 730
             wait_fire = 350
             con = motor_controller.Controller(0.075, 0.001, start)
             setpoint = start
@@ -159,10 +159,10 @@ def task2_fun():
             
             con.clear_esum(0)
             hold = 0
-            for i in range(60):
+            for i in range(80):
                 moe.set_duty_cycle(con.run(setpoint,enc.read()))
                 print(enc.read())
-                if abs( setpoint - enc.read() ) < 10:
+                if abs( setpoint - enc.read() ) < 15:
                     if hold > 4:
                         print('DONE')
                         break
@@ -217,9 +217,9 @@ def task2_fun():
             else:
                 val = my_share.get()
                 if val < 1450:
-                    setpoint = enc.read()+0.06*(val-1450)
+                    setpoint = enc.read()+0.055*(val-1450)
                 else:
-                    setpoint = enc.read()+0.05*(val-1450)
+                    setpoint = enc.read()+0.075*(val-1450)
                 print('SP',setpoint)
                 con.set_Ki(0.1)
                 t2_state = 1
