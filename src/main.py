@@ -29,7 +29,9 @@ import task_share
 
 def task1_fun():
     """!
-    Camera processing.
+    Camera processing. Takes a picture after 5 seconds, when the target is frozen.
+    Filters data, omitting rows and columns on the edges of the frame to focus on the target.
+    
     """
     
     t1_state = 0
@@ -101,7 +103,8 @@ def task1_fun():
 
 def task2_fun():
     """!
-    Panning motor control
+    Motor control: both panning axis and trigger-pull servo. After initializing motor, the
+    panning axis spins 180 deg. Then turn on both flywheels 
     """
     
     t2_state = 0
