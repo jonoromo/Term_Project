@@ -1,3 +1,12 @@
+"""!
+@file motor_controller.py
+    This file contains class Controller which implements a closed loop PI motor controller. 
+
+@author Brendan Stratford
+@author Johnathan Waldmire
+@author Jonathan Romeo
+@date   3/17/2024
+"""
 class Controller:
     """!
     Allows users to define a proportional gain value and motor position setpoint.

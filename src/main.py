@@ -1,7 +1,8 @@
 """!
 @file main.py
-    This file was adapted from a multitasking example to allow for two
-    motors to be controlled simultaneously. 
+    This file is uploaded to a Nucleo STM32 to control the "Brendan and the Jo(h)nathans"
+    NERF turret. The file is written to cooperatively multitask, using a thermal camera,
+    DC motor with closed loop PI control, and servomotor.
 
 @author JR Ridgely
 @author Brendan Stratford
@@ -29,9 +30,9 @@ import task_share
 
 def task1_fun():
     """!
-    Camera processing. Takes a picture after 5 seconds, when the target is frozen.
-    Filters data, omitting rows and columns on the edges of the frame to focus on the target.
-    
+    @brief   Accepts camera input via I2C.
+    @details Camera processing. Takes a picture after 5 seconds, when the target is frozen.
+             Filters data, omitting rows and columns on the edges of the frame to focus on the target.
     """
     
     t1_state = 0
@@ -103,8 +104,12 @@ def task1_fun():
 
 def task2_fun():
     """!
-    Motor control: both panning axis and trigger-pull servo. After initializing motor, the
-    panning axis spins 180 deg. Then turn on both flywheels 
+    @brief   Motor control: both panning axis and trigger-pull servo.
+    @details After initializing motor, the panning axis spins 180 deg.
+             Both flywheels are turned on.
+             Panning motor turns gun according to setpoint from thermal camera.
+             Servo pulls trigger and returns to neutral position.
+    
     """
     
     t2_state = 0

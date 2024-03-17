@@ -1,6 +1,17 @@
+"""!
+@file encoder_reader.py
+    This file contains class encoder_reader, which returns the position read from a DC motor encoder without overflow.
+
+@author Brendan Stratford
+@author Johnathan Waldmire
+@author Jonathan Romeo
+@date   3/17/2024
+"""
 
 class Encoder:
-    """"""
+    """!
+    This class returns the position read from a DC motor encoder without overflow.
+    """
     def __init__(self, pinA, pinB, timer, chan_A, chan_B):
         self.pinA = pinA
         self.pinB = pinB

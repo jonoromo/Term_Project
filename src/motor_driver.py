@@ -1,3 +1,13 @@
+"""!
+@file motor_driver.py
+    This file contains class MotorDriver which drives a motor based on PWM input.
+
+@author Brendan Stratford
+@author Johnathan Waldmire
+@author Jonathan Romeo
+@date   3/17/2024
+"""
+
 class MotorDriver:
     """! 
     This class implements a motor driver for an ME405 kit. The user can specify a PWM value and

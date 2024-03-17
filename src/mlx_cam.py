@@ -1,8 +1,7 @@
 ## @file mlx_cam.py
 # 
-#  RAW VERSION
-#  This version uses a stripped down MLX90640 driver which produces only raw
-#  data, not calibrated data, in order to save memory.
+#  This version builds upon a stripped down MLX90640 driver to produce calibrated
+#  and screened data.
 # 
 #  This file contains a wrapper that facilitates the use of a Melexis MLX90640
 #  thermal infrared camera for general use. The wrapper contains a class MLX_Cam
