@@ -9,7 +9,7 @@
 """
 class Controller:
     """!
-    Allows users to define a proportional gain value and motor position setpoint.
+    Implements PI control for a DC motor. Gain values and a desired encoder value set point are specified upon initialization. Works with the motor driver class to control the motor PWM signal.
     """
     
     def __init__(self, k_p, k_i, sp):

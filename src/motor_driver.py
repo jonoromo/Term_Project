@@ -10,8 +10,8 @@
 
 class MotorDriver:
     """! 
-    This class implements a motor driver for an ME405 kit. The user can specify a PWM value and
-    change the speed of the motor. Changing the sign of PWM changes the direction of the motor.
+    This class interfaces with the H-Bridge motor driver hardware from the ME405 kit. The user can specify a PWM value, which
+    changes the speed of the motor. Changing the sign of PWM changes the direction of the motor.
     """
 
     def __init__ (self, en_pin, in1pin, in2pin, timer, channel_pos, channel_neg):
