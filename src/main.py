@@ -4,13 +4,10 @@
     NERF turret. The file is written to cooperatively multitask, using a thermal camera,
     DC motor with closed loop PI control, and servomotor.
 
-@author JR Ridgely
 @author Brendan Stratford
 @author Johnathan Waldmire
 @author Jonathan Romeo
-@date   2021-Dec-15 JRR Created from the remains of previous example
-@copyright (c) 2015-2021 by JR Ridgely and released under the GNU
-    Public License, Version 2. 
+@date   3/17/2024
 """
 
 import gc
