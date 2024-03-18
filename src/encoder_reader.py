@@ -10,7 +10,7 @@
 
 class Encoder:
     """!
-    This class returns the position read from a DC motor encoder without overflow.
+    This class returns the position read from a DC motor encoder. This occurs without overflow, meaning the encoder value will continually increment or decrement without wrapping around.
     """
     def __init__(self, pinA, pinB, timer, chan_A, chan_B):
         self.pinA = pinA
